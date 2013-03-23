@@ -1,29 +1,28 @@
-class Email 
-  include ActiveModel::Validations
+class Email < ActiveRecord::Base
 
-  validates :subject, :presence => true,
-                      :length => { :in => 1..78 }
+  attr_accessor :attachment
 
-  attr_reader :subject
+  validates :subject, :length => { :in => 1..78 }
+  validates :to, :subject, :text, :presence => true 
 
-  def initialize(attributes)
-    @subject = attributes[:subject]
-    @text = attributes[:text]
-    @to = attributes[:to]
-  end
-
-  def send
-    response = Faraday.post do |request|
-      request.url "https://api:#{KEY}@api.mailgun.net/v2/#{DOMAIN}/messages"
-      request.headers['Content-Type'] = "application/x-www-form-urlencoded"
-      request.headers['Authorization'] = "Basic " + Base64.strict_encode64("api:#{KEY}")
-      request.body = URI.encode_www_form({ :from => "me@#{DOMAIN}",
-                    :to => "#{@to}",
-                    :subject => "#{@subject}",
-                    :text => "#{@text}"})
+  def send_email
+    params = {
+      "from" => USER_EMAIL,
+      "to" => to,
+      "subject" => subject,
+      "text" => text,
+      "attachment" => File.new(File.join(*attachment))
+        }
+    conn = Faraday.new(:url => 'https://api.mailgun.net/v2') do |faraday|
+      faraday.request  :url_encoded
+      #faraday.response :logger
+      faraday.adapter  Faraday.default_adapter 
     end
+    conn.basic_auth('api', API_KEY)
+    response = conn.post("#{DOMAIN_NAME}/messages", params)
     @status = response.status
-  end
+    self
+    end
 
   def successful?
     @status == 200

@@ -1,12 +1,4 @@
-require 'faraday'
-require 'base64'
-require 'uri'
-require 'json'
-require 'active_model'
-
-require './lib/email'
-require './lib/unsubscriber'
-require './env'
+require './ui_helper'
 
 
 def welcome
@@ -34,19 +26,27 @@ def menu
   end
 end
 
-def send_email
+def send_email  
+  puts "Please enter the email of the recipient:"
+  to = gets.chomp
   puts "Type a subject for the Email, or hit Enter for no subject."
   subject = gets.chomp
   puts "What text would you like to email?"
   text = gets.chomp
-  puts "Please enter the email of the recipient:"
-  to = gets.chomp
-  
-  email = Email.new({:subject => subject, :text => text, :to => to})
-  if email.successful?
-    puts "Email sent."
-  else
-    puts "Email failed."
+  puts "What is your file path?"
+  files = gets.chomp
+  puts "What is your file name?"
+  name = gets.chomp
+  attachment = [files, name]
+
+  1.times do
+    email = Email.new({:subject => subject, :text => text, :to => to, :attachment => attachment}).send_email
+    if email.successful?
+      email.save 
+      puts "Email sent."
+    else
+      puts "Email failed."
+    end
   end
 end
 

@@ -1,22 +1,50 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (3.2.13)
-      activesupport (= 3.2.13)
+    activemodel (3.2.12)
+      activesupport (= 3.2.12)
       builder (~> 3.0.0)
-    activesupport (3.2.13)
-      i18n (= 0.6.1)
+    activerecord (3.2.12)
+      activemodel (= 3.2.12)
+      activesupport (= 3.2.12)
+      arel (~> 3.0.2)
+      tzinfo (~> 0.3.29)
+    activesupport (3.2.12)
+      i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.3.3)
+    arel (3.0.2)
+    bourne (1.4.0)
+      mocha (~> 0.13.2)
     builder (3.0.4)
+    coderay (1.0.9)
+    columnize (0.3.6)
     crack (0.3.2)
+    debugger (1.5.0)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.2.0)
+      debugger-ruby_core_source (~> 1.2.0)
+    debugger-linecache (1.2.0)
+    debugger-ruby_core_source (1.2.0)
     diff-lcs (1.2.1)
     faraday (0.8.6)
       multipart-post (~> 1.1)
-    i18n (0.6.1)
+    i18n (0.6.4)
     json (1.7.7)
+    metaclass (0.0.1)
+    method_source (0.8.1)
+    mocha (0.13.3)
+      metaclass (~> 0.0.1)
     multi_json (1.7.1)
     multipart-post (1.2.0)
+    pg (0.14.1)
+    pry (0.9.12)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    pry-debugger (0.2.2)
+      debugger (~> 1.3)
+      pry (~> 0.9.10)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -25,6 +53,12 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.0)
+    shoulda-matchers (1.5.4)
+      activesupport (>= 3.0.0)
+      bourne (~> 1.3)
+    slop (3.4.4)
+    tzinfo (0.3.37)
+    vcr (2.4.0)
     webmock (1.11.0)
       addressable (>= 2.2.7)
       crack (>= 0.3.2)
@@ -33,8 +67,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activemodel
+  activerecord
   faraday
   json
+  pg
+  pry
+  pry-debugger
   rspec
+  shoulda-matchers
+  vcr
   webmock

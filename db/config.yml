@@ -1,0 +1,9 @@
+development:
+  adapter: postgresql
+  database: emailer_development
+  host: localhost
+
+test:
+  adapter: postgresql
+  database: emailer_test
+  host: localhost
